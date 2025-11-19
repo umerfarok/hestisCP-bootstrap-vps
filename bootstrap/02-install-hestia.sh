@@ -17,7 +17,6 @@ wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-ins
 chmod +x hst-install.sh
 
 bash hst-install.sh \
-  --nginx yes \
   --apache no \
   --phpfpm yes \
   --multiphp no \
@@ -30,7 +29,7 @@ bash hst-install.sh \
   --iptables yes \
   --fail2ban yes \
   --quota yes \
-  -y \
+  --interactive no \
   --force
 
 echo "=== HestiaCP installation completed ==="
