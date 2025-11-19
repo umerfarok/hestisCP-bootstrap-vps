@@ -12,10 +12,14 @@ apt install -y sudo curl wget git ufw htop jq
 
 # Basic SSH hardening (assumes key-based auth is used)
 SSHD_CONFIG="/etc/ssh/sshd_config"
-sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' "$SSHD_CONFIG"
-# Allow root login with keys only
-sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin prohibit-password/' "$SSHD_CONFIG"
-systemctl reload sshd || true
+if [ -f "$SSHD_CONFIG" ]; then
+  sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' "$SSHD_CONFIG"
+  # Allow root login with keys only
+  sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin prohibit-password/' "$SSHD_CONFIG"
+  systemctl reload sshd || true
+else
+  echo "Warning: SSH config not found (skipping SSH hardening - expected in Docker)"
+fi
 
 # Firewall
 ufw allow 22/tcp

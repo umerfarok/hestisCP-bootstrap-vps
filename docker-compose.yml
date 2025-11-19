@@ -1,0 +1,10 @@
+services:
+  hestia-test:
+    image: ubuntu:22.04
+    privileged: true
+    working_dir: /opt/archon-vps-hetzner
+    volumes:
+      - .:/opt/archon-vps-hetzner
+    tty: true
+    command: ["/bin/bash", "-c", "sleep infinity"]
+
