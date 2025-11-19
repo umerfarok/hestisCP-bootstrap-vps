@@ -28,29 +28,58 @@ fi
 
 echo ""
 echo "-> Creating hosting package: ARCHON_BASIC"
-echo ""
-echo "NOTE: HestiaCP packages must be created via the web interface."
-echo "Please create the package manually:"
-echo ""
-echo "1. Log into HestiaCP: https://cpanel.archonsys.io:8083"
-echo "2. Go to: Packages → Add Package"
-echo "3. Create package with name: ARCHON_BASIC"
-echo "4. Set limits:"
-echo "   - Web Domains: 50"
-echo "   - DNS Zones: 0"
-echo "   - Mail Domains: 50"
-echo "   - Databases: 50"
-echo "   - Shell Access: yes"
-echo "   - CGI: yes"
-echo "   - Quota: 0 (unlimited)"
-echo "   - Bandwidth: 0 (unlimited)"
-echo "   - PHP: yes"
+
+PACKAGE_DIR="/usr/local/hestia/data/packages"
+PACKAGE_FILE="$PACKAGE_DIR/ARCHON_BASIC.pkg"
+
+if [ ! -d "$PACKAGE_DIR" ]; then
+  echo "Warning: Package directory not found: $PACKAGE_DIR"
+  echo "Package will need to be created manually via web interface"
+else
+  # Create ARCHON_BASIC package file
+  cat > "$PACKAGE_FILE" << 'EOF'
+WEB_TEMPLATE='default'
+PROXY_TEMPLATE='default'
+BACKEND_TEMPLATE='default'
+DNS_TEMPLATE='default'
+WEB_DOMAINS='50'
+WEB_ALIASES='unlimited'
+DNS_DOMAINS='0'
+DNS_RECORDS='unlimited'
+MAIL_DOMAINS='50'
+MAIL_ACCOUNTS='unlimited'
+RATE_LIMIT='200'
+DATABASES='50'
+CRON_JOBS='unlimited'
+DISK_QUOTA='0'
+CPU_QUOTA='unlimited'
+CPU_QUOTA_PERIOD='unlimited'
+MEMORY_LIMIT='unlimited'
+SWAP_LIMIT='unlimited'
+BANDWIDTH='0'
+NS='ns1.archonsys.io,ns2.archonsys.io'
+SHELL='bash'
+BACKUPS='1'
+BACKUPS_INCREMENTAL='no'
+TIME='18:00:00'
+DATE='2025-11-19'
+EOF
+
+  if [ -f "$PACKAGE_FILE" ]; then
+    echo "✓ Package ARCHON_BASIC created successfully"
+    echo "  Location: $PACKAGE_FILE"
+  else
+    echo "Warning: Failed to create package file"
+    echo "Package will need to be created manually via web interface"
+  fi
+fi
+
 echo ""
 echo "=== Post-Hestia setup complete ==="
 echo ""
 echo "Next steps:"
 echo "1. Access HestiaCP panel: https://cpanel.archonsys.io:8083"
-echo "2. Create the ARCHON_BASIC package (see instructions above)"
-echo "3. Change admin password: User → admin → Change Password"
+echo "2. Change admin password: User → admin → Change Password"
+echo "3. Verify ARCHON_BASIC package exists: Packages → ARCHON_BASIC"
 
 
