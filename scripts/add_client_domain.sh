@@ -5,11 +5,14 @@ set -euo pipefail
 export PATH=$PATH:/usr/local/hestia/bin
 
 # Check if HestiaCP is installed
-if ! command -v v-add-user &> /dev/null; then
-  echo "Error: HestiaCP is not installed or not in PATH"
+if [ ! -f "/usr/local/hestia/bin/v-add-user" ]; then
+  echo "Error: HestiaCP is not installed"
   echo "Please run bootstrap/02-install-hestia.sh first"
   exit 1
 fi
+
+# Ensure HestiaCP binaries are in PATH
+export PATH="/usr/local/hestia/bin:$PATH"
 
 if [ $# -lt 2 ]; then
   echo "Usage: $0 domain.com client_username"
@@ -65,6 +68,13 @@ echo "TXT    @                   \"v=spf1 mx ~all\""
 echo "TXT    default._domainkey  \"$DKIM_LINE\""
 echo "TXT    _dmarc              \"v=DMARC1; p=quarantine; rua=mailto:dmarc@$DOMAIN; fo=1\""
 echo
-echo "Replace [SERVER_IP] with your VPS IP address."
-echo "After DNS is set, Hestia can request SSL certificates automatically."
+echo "Replace [SERVER_IP] with: 5.78.86.122"
+echo ""
+echo "After DNS propagates (5-30 minutes), enable SSL in HestiaCP:"
+echo "  Web → $DOMAIN → Edit → Enable SSL & Let's Encrypt → Save"
+echo ""
+echo "FTP Credentials for $CLIENT:"
+echo "  Server: $DOMAIN (or 5.78.86.122)"
+echo "  Username: $CLIENT"
+echo "  Password: (check HestiaCP panel: User → $CLIENT → Change Password)"
 
