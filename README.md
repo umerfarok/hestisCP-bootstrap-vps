@@ -11,6 +11,19 @@ Minimal infrastructure repository for setting up a Hetzner VPS with HestiaCP for
 - ✅ Basic server hardening
 - ✅ Backup configuration (local Hestia backups)
 
+## Two Types of Domains
+
+**1. Server Domain** (for HestiaCP panel SSL)
+- Your own domain for accessing the control panel (e.g., `server.yourdomain.com`)
+- Optional but recommended for SSL on the panel
+- Set up once after VPS installation
+- See "Set Up Server Domain with SSL" section below
+
+**2. Client Domains** (for hosting websites)
+- Domains your clients want to host (e.g., `client1.com`, `client2.com`)
+- Each client domain gets SSL automatically
+- Set up per client using `add_client_domain.sh` script
+
 ## Prerequisites
 
 - Fresh Ubuntu 22.04 server on Hetzner VPS
@@ -90,9 +103,16 @@ This will:
 
 ### 5. Access HestiaCP Panel
 
-1. Open your browser and go to: `https://your-server-ip:8083`
+**Option 1: Use IP Address (Works Immediately)**
+1. Open your browser and go to: `https://5.78.86.122:8083`
 2. Log in with the credentials from Step 2
-3. Accept the self-signed certificate warning (first time only)
+3. Accept the self-signed certificate warning (click "Advanced" → "Proceed")
+
+**Option 2: Use Domain with SSL (Recommended)**
+- See "Set Up Server Domain with SSL" section below
+- Requires client to point a domain to `5.78.86.122` first
+
+**Note:** You can start with Option 1 and add a domain later if needed.
 
 ## Manual Steps After Installation
 
@@ -102,46 +122,59 @@ In HestiaCP panel:
 - Go to **User** → **admin** → **Change Password**
 - Set a strong password
 
-### 2. Configure Server Hostname
+### 2. Set Up Server Domain with SSL (Optional but Recommended)
 
-In HestiaCP panel:
-- Go to **Server** → **Configure**
-- Set hostname (e.g., `server.yourdomain.com`)
+If you want to access HestiaCP panel via a domain with SSL (instead of just IP:8083):
 
-### 3. Set Up DNS for Your Server Domain
+**Step 1: Point domain to VPS IP**
+- Choose a domain for your server (e.g., `server.yourdomain.com` or `panel.yourdomain.com`)
+- In your DNS provider, add A record: `server.yourdomain.com` → `your-vps-ip`
+- Wait for DNS propagation (5-30 minutes)
 
-If you want to access HestiaCP via a domain name:
-- Point your domain's A record to the server IP
-- In HestiaCP: **Server** → **Configure** → set hostname to your domain
+**Step 2: Run the server domain setup script**
+
+**Option A: Automatic SSL (if DNS is ready):**
+```bash
+cd /opt/archon-vps-hetzner
+./scripts/setup-server-domain.sh server.yourdomain.com --auto-ssl
+```
+
+**Option B: Manual SSL (if DNS needs time):**
+```bash
+cd /opt/archon-vps-hetzner
+./scripts/setup-server-domain.sh server.yourdomain.com
+```
+Then after DNS propagates, run:
+```bash
+./scripts/enable-panel-ssl.sh server.yourdomain.com
+```
+
+**Step 3: Access HestiaCP via domain**
+- After SSL is issued, access panel at: `https://server.yourdomain.com:8083`
+
+**Note:** This is optional. You can use the server with just IP:8083, but having SSL on a domain is more professional and secure.
 
 ## Adding Client Domains
 
-Use the helper script to add new client domains:
+### Quick Workflow
 
-```bash
-cd /opt/archon-vps-hetzner
-./scripts/add_client_domain.sh example.com clientuser
-```
+1. **Ask client to point domain to your VPS IP** (A record: `@` → `your-server-ip`)
+2. **After client confirms**, run the script:
+   ```bash
+   cd /opt/archon-vps-hetzner
+   ./scripts/add_client_domain.sh example.com clientuser
+   ```
+3. **Wait for DNS propagation** (5-30 minutes)
+4. **Enable SSL in HestiaCP**: Web → domain → Enable SSL & Let's Encrypt → Save
 
-This will:
+The script will:
 - Create HestiaCP user (if not exists)
 - Add web domain
 - Add mail domain
 - Enable DKIM
-- Print DNS records you need to configure
+- Print DNS records (MX, SPF, DKIM, DMARC) for email
 
-**Then configure DNS** in your DNS provider (Cloudflare/Hetzner DNS):
-- Copy the DNS records from the script output
-- Replace `[SERVER_IP]` with your actual VPS IP
-- Add all records (A, MX, SPF, DKIM, DMARC)
-
-**After DNS propagates** (usually 5-30 minutes):
-- Log into HestiaCP
-- Go to **Web** → edit the domain
-- Enable **SSL Support** and **Let's Encrypt support**
-- Save
-
-See [docs/how-to-add-domain.md](docs/how-to-add-domain.md) for detailed instructions.
+**See [docs/client-onboarding.md](docs/client-onboarding.md) for complete client onboarding workflow and email templates.**
 
 ## Creating Email Accounts
 
@@ -196,11 +229,15 @@ Daily backups are enabled for the admin user. To configure backups for other use
 │   ├── 02-install-hestia.sh    # HestiaCP installation
 │   └── 03-post-hestia-setup.sh # Post-install configuration
 ├── scripts/
-│   └── add_client_domain.sh    # Helper to add client domains
+│   ├── add_client_domain.sh    # Helper to add client domains
+│   ├── setup-server-domain.sh  # Setup domain for HestiaCP panel
+│   └── enable-panel-ssl.sh     # Enable SSL for HestiaCP panel
 ├── docs/
-│   ├── how-to-add-domain.md    # Domain setup guide
+│   ├── FIVERR-CLIENT-SETUP.md   # Instructions for Fiverr client
+│   ├── client-onboarding.md     # Customer onboarding workflow
+│   ├── how-to-add-domain.md     # Domain setup guide
 │   ├── how-to-create-email.md  # Email account guide
-│   └── how-ssl-works.md        # SSL automation guide
+│   └── how-ssl-works.md         # SSL automation guide
 └── README.md                    # This file
 ```
 

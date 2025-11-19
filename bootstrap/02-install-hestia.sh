@@ -4,8 +4,16 @@ set -euo pipefail
 
 echo "=== Installing HestiaCP ==="
 
-cd /root
-wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh -O hst-install.sh
+# Ensure we're in /root directory
+cd /root || {
+  echo "Error: Cannot access /root directory"
+  exit 1
+}
+
+wget https://raw.githubusercontent.com/hestiacp/hestiacp/release/install/hst-install.sh -O hst-install.sh || {
+  echo "Error: Failed to download HestiaCP installer"
+  exit 1
+}
 chmod +x hst-install.sh
 
 bash hst-install.sh \

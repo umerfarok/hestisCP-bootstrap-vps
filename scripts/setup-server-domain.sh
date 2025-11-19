@@ -4,6 +4,13 @@ set -euo pipefail
 
 export PATH=$PATH:/usr/local/hestia/bin
 
+# Check if HestiaCP is installed
+if ! command -v v-add-domain &> /dev/null; then
+  echo "Error: HestiaCP is not installed or not in PATH"
+  echo "Please run bootstrap/02-install-hestia.sh first"
+  exit 1
+fi
+
 if [ $# -lt 1 ]; then
   echo "Usage: $0 server-domain.com [--auto-ssl]"
   echo "Example: $0 cpanel.archonsys.io --auto-ssl"
@@ -34,7 +41,11 @@ echo "Make sure DNS A record points to $SERVER_IP first!"
 echo ""
 
 if [ "$AUTO_SSL" = false ]; then
-  read -p "Press Enter to continue or Ctrl+C to cancel..."
+  if [ -t 0 ]; then
+    read -p "Press Enter to continue or Ctrl+C to cancel..."
+  else
+    echo "Running in non-interactive mode, continuing..."
+  fi
 fi
 
 echo "-> Adding web domain for admin"
@@ -50,7 +61,14 @@ if [ "$AUTO_SSL" = true ]; then
   echo "-> Checking DNS propagation..."
   
   # Check if domain resolves to server IP
-  RESOLVED_IP=$(dig +short "$DOMAIN" | tail -n1)
+  if ! command -v dig &> /dev/null; then
+    echo "Warning: dig command not found. Installing dnsutils..."
+    apt-get update && apt-get install -y dnsutils || {
+      echo "Error: Cannot install dnsutils. Please install manually: apt install dnsutils"
+      exit 1
+    }
+  fi
+  RESOLVED_IP=$(dig +short "$DOMAIN" 2>/dev/null | tail -n1)
   
   if [ "$RESOLVED_IP" = "$SERVER_IP" ]; then
     echo "✓ DNS is pointing to $SERVER_IP"

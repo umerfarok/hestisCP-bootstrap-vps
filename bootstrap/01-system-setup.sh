@@ -8,7 +8,7 @@ echo "=== Archon VPS Base System Setup ==="
 apt update && apt upgrade -y
 
 # Basic tools
-apt install -y sudo curl wget git ufw htop jq
+apt install -y sudo curl wget git ufw htop jq dnsutils openssl
 
 # Basic SSH hardening (assumes key-based auth is used)
 SSHD_CONFIG="/etc/ssh/sshd_config"
@@ -16,7 +16,8 @@ if [ -f "$SSHD_CONFIG" ]; then
   sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' "$SSHD_CONFIG"
   # Allow root login with keys only
   sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin prohibit-password/' "$SSHD_CONFIG"
-  systemctl reload sshd || true
+  # Reload SSH service (try both sshd and ssh service names)
+  systemctl reload sshd 2>/dev/null || systemctl reload ssh 2>/dev/null || true
 else
   echo "Warning: SSH config not found (skipping SSH hardening - expected in Docker)"
 fi

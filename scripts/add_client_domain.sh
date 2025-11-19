@@ -4,6 +4,13 @@ set -euo pipefail
 
 export PATH=$PATH:/usr/local/hestia/bin
 
+# Check if HestiaCP is installed
+if ! command -v v-add-user &> /dev/null; then
+  echo "Error: HestiaCP is not installed or not in PATH"
+  echo "Please run bootstrap/02-install-hestia.sh first"
+  exit 1
+fi
+
 if [ $# -lt 2 ]; then
   echo "Usage: $0 domain.com client_username"
   exit 1
@@ -16,6 +23,13 @@ echo "=== Adding client domain: $DOMAIN for user: $CLIENT ==="
 
 # Create user if not exists
 if ! id "$CLIENT" >/dev/null 2>&1; then
+  if ! command -v openssl &> /dev/null; then
+    echo "Error: openssl not found. Installing..."
+    apt-get update && apt-get install -y openssl || {
+      echo "Error: Cannot install openssl. Please install manually: apt install openssl"
+      exit 1
+    }
+  fi
   PASSWORD=$(openssl rand -base64 12)
   CONTACT_EMAIL="admin@archonsys.io"
 
@@ -40,7 +54,7 @@ echo "-> Enabling DKIM"
 v-add-mail-domain-dkim "$CLIENT" "$DOMAIN" || true
 
 echo "-> Fetching DKIM value"
-DKIM_LINE=$(v-list-mail-domain-dkim "$CLIENT" "$DOMAIN" plain | awk '/TXT/ {for (i=5; i<=NF; i++) printf $i " "; print ""}')
+DKIM_LINE=$(v-list-mail-domain-dkim "$CLIENT" "$DOMAIN" plain 2>/dev/null | awk '/TXT/ {for (i=5; i<=NF; i++) printf $i " "; print ""}' || echo "")
 
 echo
 echo "=== DNS records to configure for $DOMAIN (Cloudflare / Hetzner DNS) ==="

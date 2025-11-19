@@ -4,6 +4,13 @@ set -euo pipefail
 
 export PATH=$PATH:/usr/local/hestia/bin
 
+# Check if HestiaCP is installed
+if ! command -v v-add-package &> /dev/null; then
+  echo "Error: HestiaCP is not installed or not in PATH"
+  echo "Please run bootstrap/02-install-hestia.sh first"
+  exit 1
+fi
+
 ADMIN_USER="admin"
 
 echo "=== Post-Hestia Setup ==="
