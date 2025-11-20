@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<title>Welcome - Your Hosting is Ready!</title>
+		<style>
+			body {
+				background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+				margin: 0;
+				padding: 0;
+				min-height: 100vh;
+				color: #ffffff;
+				font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+					"Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+					"Noto Color Emoji";
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			.container {
+				width: 90%;
+				max-width: 800px;
+				margin: 0 auto;
+				text-align: center;
+				background: rgba(255, 255, 255, 0.1);
+				backdrop-filter: blur(10px);
+				border-radius: 20px;
+				padding: 60px 40px;
+				box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+			}
+			h1 {
+				font-size: 3em;
+				font-weight: 700;
+				color: #ffffff;
+				letter-spacing: -0.02em;
+				margin-bottom: 20px;
+				margin-top: 0;
+			}
+			.subtitle {
+				font-size: 1.5em;
+				color: rgba(255, 255, 255, 0.9);
+				margin-bottom: 40px;
+				font-weight: 300;
+			}
+			.animate__animated {
+				animation-duration: 1s;
+				animation-fill-mode: both;
+			}
+			.animate__fadeIn {
+				animation-name: fadeIn;
+			}
+			.success {
+				color: #4ade80;
+				fill: #4ade80;
+			}
+			.icon-large {
+				height: 120px;
+				width: 120px;
+				margin-bottom: 30px;
+			}
+			.features {
+				background: rgba(255, 255, 255, 0.15);
+				border-radius: 15px;
+				padding: 30px;
+				margin: 40px 0;
+				text-align: left;
+			}
+			.features h2 {
+				font-size: 1.8em;
+				margin-bottom: 20px;
+				text-align: center;
+				color: #ffffff;
+			}
+			.feature-item {
+				display: flex;
+				align-items: center;
+				margin: 15px 0;
+				font-size: 1.1em;
+			}
+			.feature-item svg {
+				width: 24px;
+				height: 24px;
+				margin-right: 15px;
+				flex-shrink: 0;
+			}
+			.description-text {
+				color: rgba(255, 255, 255, 0.95);
+				letter-spacing: -0.01em;
+				font-size: 1.2em;
+				line-height: 1.8;
+				margin: 30px 0;
+			}
+			.cta-button {
+				display: inline-block;
+				background: #ffffff;
+				color: #667eea;
+				padding: 15px 40px;
+				border-radius: 50px;
+				text-decoration: none;
+				font-weight: 600;
+				font-size: 1.1em;
+				margin-top: 30px;
+				transition: transform 0.2s, box-shadow 0.2s;
+				box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+			}
+			.cta-button:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+			}
+			.footer {
+				margin-top: 50px;
+				font-size: 0.9em;
+				color: rgba(255, 255, 255, 0.7);
+			}
+			@keyframes fadeIn {
+				from {
+					opacity: 0;
+					transform: translateY(20px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<div class="animate__animated animate__fadeIn">
+				<svg
+					class="success icon-large"
+					xmlns="http://www.w3.org/2000/svg"
+					viewBox="0 0 512 512"
+				>
+					<path
+						d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"
+					></path>
+				</svg>
+			</div>
+			
+			<h1 class="animate__animated animate__fadeIn">Welcome! Your Hosting is Ready</h1>
+			
+			<div class="subtitle animate__animated animate__fadeIn">
+				Setup Complete ✓
+			</div>
+			
+			<div class="description-text animate__animated animate__fadeIn">
+				<p>Congratulations! Your hosting account has been successfully configured and is ready to use.</p>
+				<p>Please test your setup and let us know if you need any assistance.</p>
+			</div>
+
+			<div class="features animate__animated animate__fadeIn">
+				<h2>What's Included</h2>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>Automatic Daily Backups</strong> - Your data is backed up automatically every day</span>
+				</div>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>SSL Certificate</strong> - Your website is secured with free SSL (HTTPS)</span>
+				</div>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>Email Hosting</strong> - Professional email accounts for your domain</span>
+				</div>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>FTP/SFTP Access</strong> - Upload your website files easily</span>
+				</div>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>Database Support</strong> - MySQL/MariaDB databases available</span>
+				</div>
+				
+				<div class="feature-item">
+					<svg class="success" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+						<path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/>
+					</svg>
+					<span><strong>24/7 Support</strong> - We're here to help whenever you need us</span>
+				</div>
+			</div>
+
+			<div class="description-text animate__animated animate__fadeIn">
+				<p><strong>Next Steps:</strong></p>
+				<p>1. Upload your website files via FTP/SFTP</p>
+				<p>2. Test your email accounts</p>
+				<p>3. Verify SSL certificate is working (green padlock in browser)</p>
+				<p>4. Contact us if you need any assistance</p>
+			</div>
+
+			<a href="mailto:support@archonsys.io" class="cta-button animate__animated animate__fadeIn">
+				Contact Support
+			</a>
+
+			<section class="footer animate__animated animate__fadeIn">
+				<p><strong>Domain:</strong> test.recallmate.pro</p>
+				<p>Your hosting account is fully configured and ready to use.</p>
+			</section>
+		</div>
+	</body>
+</html>
+
